@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+!.env.example
+.openai/
+.sites*/
+node_modules/
+*.log
+
+dist/assets/cooking.mp4
+dist/assets/cooking.mp4.tmp

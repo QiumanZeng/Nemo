@@ -1,0 +1,8 @@
+(function(root){
+const defaults={wake:true,continuous:true,timeout:'20',tone:'natural',rate:1,length:'balanced',remember:true,control:true,confirm:true,execution:true,loop:'request',description:true,autoIntro:false,descriptionDetail:'main',duck:40,captions:true,layout:'spatial',speaker:true,captionSize:16,captionOpacity:70,sounds:false,markers:true,hold:'600',mood:true,beats:false,intensity:'medium',beatVisual:true,theme:'light',largeText:false,reduced:false,cues:true,orbSize:'standard',history:false,improve:false};
+function classify(input){const q=input.toLowerCase().replace(/[，。！？、,.!?\s]/g,'');if(/^(嘿|嗨|hey)?nemo$/.test(q))return 'wake';if(/取消|不用了|结束对话/.test(q))return 'cancel';if(/继续播放|恢复播放|退出循环/.test(q))return 'resume';if(/为什么|笑点|好笑|解释/.test(q))return 'why';if(/画面|描述|解说|发生了什么|看到了什么/.test(q))return 'describe';if(/下一步|下一段|下一个片段/.test(q))return 'next';if(/暂停|停一下/.test(q))return 'pause';if(/回到|跳到|跳转|定位|打蛋|调料|热锅|蛋液|切番茄|出锅/.test(q))return 'seek';if(/循环|重复/.test(q))return 'loop';if(/^(播放|开始播放|开始)$/.test(q))return 'play';return 'unknown';}
+function findSteps(q,steps){let n=q.match(/第([一二三四五六1-6])种/);const chapter=n?('一二三四五六'.includes(n[1])?'一二三四五六'.indexOf(n[1])+1:+n[1]):null;return steps.filter(s=>(chapter===null||s.chapter===chapter)&&s.keys.some(k=>q.includes(k)));}
+function nextStep(step,steps){return steps[steps.findIndex(s=>s.id===step?.id)+1]||null;}
+function cleanPrefs(raw){const p={...defaults};for(const k in p)if(typeof raw?.[k]===typeof p[k])p[k]=raw[k];p.captionSize=Math.min(24,Math.max(14,p.captionSize));p.rate=Math.min(1.5,Math.max(.75,p.rate));return p;}
+const api={defaults,classify,findSteps,nextStep,cleanPrefs};if(typeof module!=='undefined')module.exports=api;else root.NemoCore=api;
+})(globalThis);

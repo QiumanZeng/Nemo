@@ -1,0 +1,7 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const core=require('../dist/core.js');const c={};vm.createContext(c);vm.runInContext(fs.readFileSync(__dirname+'/../dist/data.js','utf8')+';globalThis.steps=STEPS;',c);const steps=c.steps;
+test('control intent precedence preserves explicit resume and seek with looping',()=>{for(const [text,want] of [['继续播放','resume'],['退出循环','resume'],['回到打蛋，循环这一步','seek'],['画面里有什么','describe'],['为什么好笑','why'],['暂停视频','pause'],['下一步','next'],['取消','cancel'],['循环这一步','loop'],['嘿 Nemo','wake'],['天气怎么样','unknown']])assert.equal(core.classify(text),want);});
+test('ambiguous seasoning request is not silently reduced to first result',()=>{assert.ok(core.findSteps('跳到加入调料',steps).length>1);const match=core.findSteps('回到第一种的调料',steps);assert.equal(match.length,1);assert.equal(match[0].start,61);});
+test('next step tracks actual marked boundaries and handles last step',()=>{const egg=core.findSteps('打蛋',steps)[0];assert.equal(egg.start,55);assert.equal(core.nextStep(egg,steps).start,61);assert.equal(core.nextStep(steps.at(-1),steps),null);});
+test('all cooking segments have valid media bounds',()=>{for(const s of steps){assert.ok(s.start>=0);assert.ok(s.end>s.start);assert.ok(s.end<=502.55);}});
+test('preference types rejected and font/rate clamped',()=>{const p=core.cleanPrefs({sounds:true,captions:'false',captionSize:500,rate:0});assert.equal(p.sounds,true);assert.equal(p.captions,true);assert.equal(p.captionSize,24);assert.equal(p.rate,.75);});
