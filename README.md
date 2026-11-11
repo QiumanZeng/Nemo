@@ -1,16 +1,16 @@
-# Nemo · 用你的方式，看懂视频
+# Nemo · Understand Videos Your Way
 
-一个可下载到自己电脑运行的 HCI 交互原型。通过语音或文字定位视频片段、循环步骤、理解画面，并自由组合字幕、场景音效和视觉节拍。
+An interactive HCI prototype that you can download and run on your own computer. Use voice or text to find video segments, repeat cooking steps, and explore scene descriptions. Combine captions, sound-source cues, and visual beat feedback to suit your preferences.
 
-![Nemo 界面预览](docs/preview.png)
+![Nemo interface preview](docs/preview.png)
 
-## 下载后怎么使用
+## Download and Run
 
-不需要购买域名或部署云服务器。每位使用者在自己的电脑运行即可。
+No domain name or cloud server is required. Each user runs a local copy on their own computer.
 
-1. 点击本 GitHub 仓库右上方 **Code → Download ZIP**，并完整解压；也可复制 Code 菜单中的地址运行 `git clone https://github.com/QiumanZeng/Nemo.git`。
-2. 确保电脑安装了 **Python 3.9 或更新版本**。不需要安装额外 Python 包。
-3. 在解压后的项目文件夹打开终端，运行：
+1. Select **Code → Download ZIP** on this GitHub repository and extract the entire archive. Alternatively, clone the repository with `git clone https://github.com/QiumanZeng/Nemo.git`.
+2. Install **Python 3.9 or later**. No additional Python packages are needed.
+3. Open a terminal in the extracted project folder and run:
 
    ```sh
    # macOS / Linux
@@ -22,53 +22,59 @@
    py -3 serve.py --open
    ```
 
-4. 浏览器会打开 **http://127.0.0.1:8767/**。终端保持开启；退出时按 `Ctrl+C`。
+4. Your browser will open **http://127.0.0.1:8767/**. Keep the terminal open while using the prototype. Press `Ctrl+C` to stop the server.
 
-也提供 macOS 的 `start.command` 和 Windows 的 `start.bat` 启动脚本。若系统不允许双击执行，直接使用上面的终端命令，不需要修改系统安全设置。
+Launcher scripts are also provided: `start.command` for macOS and `start.bat` for Windows. If your system blocks double-click execution, use the terminal commands above; there is no need to change your system's security settings.
 
-端口被占用时，运行 `python3 serve.py --port 8768 --open`（Windows 用 `py -3`）。请不要只双击 `dist/index.html`：本地服务能保证视频跳转、设置同步和浏览器权限使用同一个来源。
+If the port is already in use, run `python3 serve.py --port 8768 --open` (use `py -3` on Windows). Start the local server instead of opening `dist/index.html` directly: the server provides a consistent origin for video seeking, settings synchronization, and browser permissions.
 
-**这里的 127.0.0.1 指的是使用者自己的电脑，不是开发者的 Mac。** 下载本项目后，各自运行自己的副本即可。电脑运行期间才可访问本地网页；关闭本地服务不会影响其他人的副本。
+**Here, `127.0.0.1` refers to each user's own computer, not the developer's Mac.** After downloading the project, everyone can run their own copy. The local page is available while that copy's server is running. Stopping your server does not affect anyone else's copy.
 
-## 三种体验
+## Three Experiences
 
-| 场景 | 操作 | 结果 |
+The current interface and command recognition use Chinese. The examples below retain the supported commands, with English translations for reference. You can also click the example buttons in the interface.
+
+| Scenario | Actions | Result |
 | --- | --- | --- |
-| 跟着做一道菜 | “回到打蛋，循环这一步” → “下一步” → “继续播放” | 定位真实视频，循环当前片段，切换并退出循环 |
-| 听见画面里的故事 | “画面里有什么” → “为什么好笑” → “继续播放” | 暂停动画，给出预设解说和追问回复，再恢复播放 |
-| 发现声音的踪迹 | 点 Nemo 球 → 开启 B → 暂停 → 长按声源 | 显示声音来源与详细说明；键盘 Enter/空格也能打开 |
+| Cook along | “回到打蛋，循环这一步” (go back to beating the eggs and loop this step) → “下一步” (next step) → “继续播放” (resume playback) | Seek within the cooking video, loop a segment, move to the next step, and exit the loop. |
+| Listen to the story | “画面里有什么” (what is in the scene?) → “为什么好笑” (why is it funny?) → “继续播放” (resume playback) | Pause the animation, receive a scripted description and follow-up answer, then resume playback. |
+| Discover sound sources | Select the Nemo orb → enable B → pause → press and hold a sound source | Display a sound source and its explanation. You can also open the explanation with Enter or Space on the keyboard. |
 
-Nemo 球 → 快捷设置 → 全部设置，可以调整台词布局、字号、主题和其他偏好。设置保存在各自浏览器中，不会共享到其他人的电脑。
+Open **Nemo orb → Quick Settings → All Settings** to adjust caption layout, text size, theme, and other preferences. Settings are stored in each user's browser and are not shared with other computers.
 
-## 语音与离线使用
+## Voice Input and Offline Use
 
-- 点击麦克风才会请求授权；默认先说“嘿 Nemo”，再下指令。
-- 语音识别是否可用取决于浏览器、设备权限和网络服务。浏览器可能联网处理语音；Nemo 不保存录音。
-- 关闭麦克风、打开设置、切换场景或页面进入后台会停止监听；无输入时也会超时退出。
-- 不使用麦克风时，直接输入文字或点击示例按钮即可完成演示。
-- 网页、视频和预设动画都在仓库中；下载完成后这些功能可本地运行。语音识别不保证离线可用。
+- Microphone permission is requested only when you select the microphone. By default, say “嘿 Nemo” (Hey Nemo) before giving a command.
+- Speech recognition depends on browser support, device permissions, and network services. Your browser may process speech online; Nemo does not store recordings.
+- Listening stops when you turn off the microphone, open settings, switch scenes, or move the page to the background. It also times out when no input is received.
+- You can complete the demonstration without a microphone by typing commands or selecting the example buttons.
+- The webpage, video, and scripted animations are included in the repository and can run locally after download. Offline speech recognition is not guaranteed.
 
-## 原型范围
+## Prototype Scope
 
-真实实现：视频播放、片段跳转和循环、设置联动、字幕与声源交互、主题和本地偏好保存。
+**Implemented functionality:** video playback, segment seeking and looping, coordinated settings, caption and sound-source interactions, themes, and locally saved preferences.
 
-预设演示：视频内容理解、画面问答、字幕、声音位置与节拍。做饭视频的文字是人工动作提示，不是完整转录；另外两个场景是无真实音轨的几何动画。没有通用 AI 后台、真实震动、账户同步或自动学习。
+**Scripted demonstrations:** video understanding, scene questions and answers, captions, sound positions, and beat feedback. The cooking video's text consists of manually written action cues, not a full transcript. The other two scenes are geometric animations without actual audio tracks. The prototype does not include a general-purpose AI backend, physical haptic feedback, account synchronization, or automatic learning.
 
-做饭视频为约 20 MB 的网页压缩版，保持完整时长。视频分块保存在 `media/cooking/`；首次启动会自动校验并还原到播放目录，无需额外下载。请完整下载整个仓库。更多设计与限制见 [设计说明](docs/DESIGN_AND_LIMITATIONS.md)；素材归属见 [ATTRIBUTION.md](ATTRIBUTION.md)。
+The cooking video is a web-compressed version of approximately 20 MB that retains the full duration. Video chunks are stored in `media/cooking/`. On first launch, the server automatically verifies and reassembles them into the playback directory; no separate download is needed. Download the entire repository. See [Design and Limitations](docs/DESIGN_AND_LIMITATIONS.md) for further details and [ATTRIBUTION.md](ATTRIBUTION.md) for asset credits.
 
-## 项目结构
+## Project Structure
 
 ```text
 nemo/
-├── dist/                 网页、样式、脚本、设置和视频
-├── docs/                 设计说明与截图
-├── tests/                指令匹配测试
-├── serve.py              本地服务，支持视频 Range 请求
-├── start.command         macOS 启动脚本
-├── start.bat             Windows 启动脚本
-└── ATTRIBUTION.md        素材来源与使用范围
+├── dist/                 Webpage, styles, scripts, settings, and video
+├── docs/                 Design notes and screenshots
+├── tests/                Command-matching tests
+├── serve.py              Local server with video Range request support
+├── start.command         macOS launcher
+├── start.bat             Windows launcher
+└── ATTRIBUTION.md        Asset sources and usage scope
 ```
 
-前端使用原生 HTML、CSS、JavaScript；运行时不依赖 Node.js，也不需要 API Key。开发者可使用 Node.js 运行 `node --test tests/core.test.cjs`。
+The frontend uses plain HTML, CSS, and JavaScript. Running the prototype requires neither Node.js nor an API key. Developers can run the command-matching tests with Node.js:
 
-公开仓库便于查看与下载，并不意味着第三方视频或所有源码已取得开源许可。请参阅素材说明。
+```sh
+node --test tests/core.test.cjs
+```
+
+The repository is public for convenient viewing and downloading. Public availability does not imply that the third-party video or all source code is covered by an open-source license. Please refer to the attribution document.
